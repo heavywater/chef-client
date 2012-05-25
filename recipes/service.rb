@@ -75,7 +75,7 @@ when "init"
 
   service "chef-client" do
     supports :status => true, :restart => true
-    action :enable
+    action [ enable? ]
   end
 
 when "smf"
@@ -103,7 +103,7 @@ when "smf"
   end
   
   service "chef-client" do
-    action [:enable, :start]
+    action [enable?, start?]
     provider Chef::Provider::Service::Solaris
   end
 
@@ -131,7 +131,7 @@ when "upstart"
 
   service "chef-client" do
     provider Chef::Provider::Service::Upstart
-    action [:enable,:start]
+    action [enable?, start?]
   end
 
 when "arch"
@@ -152,7 +152,7 @@ when "arch"
   end
 
   service "chef-client" do
-    action [:enable, :start]
+    action [enable?, start?]
   end
 
 when "runit"
@@ -178,7 +178,7 @@ when "bluepill"
   end
 
   bluepill_service "chef-client" do
-    action [:enable,:load,:start]
+    action [enable?, :load, start?]
   end
 
 when "daemontools"
@@ -195,7 +195,7 @@ when "daemontools"
   daemontools_service "chef-client" do
     directory "/etc/sv/chef-client"
     template "chef-client"
-    action [:enable,:start]
+    action [enable?, start?]
     log true
   end
 
@@ -231,7 +231,7 @@ when "winsw"
   end
 
   service "chef-client" do
-    action :start
+    action [ start? ]
   end
 
 when "bsd"
