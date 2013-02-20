@@ -1,9 +1,5 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
-# Cookbook Name:: chef
-# Recipe:: delete_validation
-#
-# Copyright 2010, Opscode, Inc
+# Copyright 2012, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,15 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
-class ::Chef::Recipe
-  include ::Opscode::ChefClient::Helpers
-end
+require File.expand_path('../support/helpers', __FILE__)
 
-unless chef_server?
-  file Chef::Config[:validation_key] do
-    action :delete
-    backup false
-    only_if { ::File.exists?(Chef::Config[:client_key]) }
+describe 'chef-client::service' do
+  include Helpers::ChefClient
+  it "starts the chef-client service" do
+    service("chef-client").must_be_running
   end
 end
